@@ -5,7 +5,7 @@
  */
 package com.daa.ejb;
 
-import com.daa.model.Bestellung;
+import com.daa.model.BestellWrapper;
 import com.daa.model.Gericht;
 import java.util.List;
 import javax.ejb.Remote;
@@ -16,6 +16,6 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface TransmitSaveBestellungSessionBeanRemote {
-    public boolean storeEjb(Bestellung bestellung);
+    public boolean storeEjb(BestellWrapper wrapperBestellung);
     public List<Gericht> initializeMenu();
 }
