@@ -7,30 +7,64 @@ package com.daa.model;
  */
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author dboehm
  */
+@Entity
+@Table(name = "bestellung", catalog = "dbpizza", schema = "")
 public class Bestellung implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idOrder", nullable = false)
     private Integer idOrder;
+
+    @Column(name = "ipAddress")
     private String ipAddress;
+
+    @Column(name = "orderDate")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
+    
+    @Column(name = "sessionId")
     private String sessionId;
+    
+    @Column(name = "isOrdered")
     private boolean isOrdered;
+    
+    @Column(name = "totalPay", precision = 8, scale = 2 )
     private BigDecimal totalPay;
+    
+    @Column(name = "isPayed")
     private boolean isPayed;
+    
+    @OneToMany (mappedBy = "keyOrder")
+    private Collection<Orderposition> orderpositionCollection;
+    
+    @JoinColumn(name="keyKunde", referencedColumnName = "idKunde")   
+    @ManyToOne
     private Kunde keyKunde;
 
     public Bestellung() {
     }
 
-    public Bestellung(Integer idOrder) {
-        this.idOrder = idOrder;
-    }
+   
 
     public Bestellung(Integer idOrder, String ipAddress, Date orderDate, String sessionId, boolean isOrdered, BigDecimal totalPay, boolean isPayed) {
         this.idOrder = idOrder;
@@ -106,6 +140,18 @@ public class Bestellung implements Serializable {
         this.keyKunde = keyKunde;
     }
 
+     public Collection<Orderposition> getOrderpositionCollection() {
+        return orderpositionCollection;
+    }
+
+    public void setOrderpositionCollection(Collection<Orderposition> orderpositionCollection) {
+        this.orderpositionCollection = orderpositionCollection;
+    }
+
+    public Bestellung(Integer idOrder) {
+        this.idOrder = idOrder;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -6,18 +6,43 @@
 package com.daa.model;
 
 import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
  * @author dboehm
  */
+@Entity
+@Table(name = "gericht", catalog = "dbpizza", schema = "")
 public class Gericht implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idGericht", nullable = false)
     private Integer gerichtId;
+    
+    @Column(name = "BEZEICHNUNG", nullable = false, length = 255)
     private String bezeichnung;
+    
+    @Column(name = "PREIS", precision = 22)
     private Double preis;
+    
+    @Transient
     private Integer amount;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "keyGericht")
+    private Collection<Orderposition> orderpositionCollection;
+    
 
     public Gericht() {
     }
@@ -65,6 +90,14 @@ public class Gericht implements Serializable {
 
     public void setAmount(Integer amount) {
         this.amount = amount;
+    }
+
+    public Collection<Orderposition> getOrderpositionCollection() {
+        return orderpositionCollection;
+    }
+
+    public void setOrderpositionCollection(Collection<Orderposition> orderpositionCollection) {
+        this.orderpositionCollection = orderpositionCollection;
     }
 
 }

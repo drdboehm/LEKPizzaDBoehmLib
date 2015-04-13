@@ -6,16 +6,38 @@
 package com.daa.model;
 
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author teilnehmer
  */
+@Entity
+@Table(name = "orderposition", catalog = "dbpizza", schema = "")
 public class Orderposition implements Serializable {
+
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idOrderPosition", nullable = false)
     private Integer idOrderPosition;
+
+    @Column(name = "amountPosition")
     private Integer amountPosition;
+
+    @JoinColumn(name="keyOrder", referencedColumnName = "idOrder")
+    @ManyToOne
     private Bestellung keyOrder;
+    
+    @JoinColumn(name = "keyGericht", referencedColumnName = "idGericht")
+    @ManyToOne
     private Gericht keyGericht;
 
     public Orderposition() {
@@ -81,5 +103,5 @@ public class Orderposition implements Serializable {
     public String toString() {
         return "daten.Orderposition[ idOrderPosition=" + idOrderPosition + " ]";
     }
-    
+
 }

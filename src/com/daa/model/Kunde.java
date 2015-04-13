@@ -6,23 +6,63 @@
 package com.daa.model;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author dboehm
  */
+@Entity
+@Table(name = "kunde", catalog = "dbpizza", schema = "")
 public class Kunde implements Serializable {
-
     private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idKunde")
+    private Integer idKunde;
+
+    @Column(name = "username")
     private String username;
-    private String password;
+
+    @Column(name = "vorname")
     private String vorname;
+
+    @Column(name = "nachname")
     private String nachname;
+
+    @Column(name = "strasse")
     private String strasse;
+
+    @Column(name = "hausnr")
     private String hausnr;
+
+    @Column(name = "plz")
     private String plz;
+
+    @Column(name = "ort")
     private String ort;
-    private Integer lastId;
+
+    @Column(name = "firstEntryDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date firstEntryDate;
+
+    @Column(name = "lastEntryDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastEntryDate;
+
+    @OneToMany(mappedBy = "keyKunde")
+    private Collection<Bestellung> bestellungCollection;
 
     /**
      * The constructor initializes a minimal OrderAddress object sufficient for
@@ -44,20 +84,36 @@ public class Kunde implements Serializable {
         ort = "";
     }
 
-    public Integer getLastId() {
-        return lastId;
+    public Collection<Bestellung> getBestellungCollection() {
+        return bestellungCollection;
     }
 
-    public String getPassword() {
-        return password;
+    public void setBestellungCollection(Collection<Bestellung> bestellungCollection) {
+        this.bestellungCollection = bestellungCollection;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public Date getFirstEntryDate() {
+        return firstEntryDate;
     }
 
-    public void setLastId(Integer lastId) {
-        this.lastId = lastId;
+    public void setFirstEntryDate(Date firstEntryDate) {
+        this.firstEntryDate = firstEntryDate;
+    }
+
+    public Date getLastEntryDate() {
+        return lastEntryDate;
+    }
+
+    public void setLastEntryDate(Date lastEntryDate) {
+        this.lastEntryDate = lastEntryDate;
+    }
+
+    public Integer getIdKunde() {
+        return idKunde;
+    }
+
+    public void setIdKunde(Integer idKunde) {
+        this.idKunde = idKunde;
     }
 
     public Kunde(String username, String vorname, String nachname, String strasse, String hausnr, String plz, String ort) {
@@ -128,10 +184,9 @@ public class Kunde implements Serializable {
 
     @Override
     public String toString() {
-        String out = String.format("Kunde: Vorname=%s%nName: ", vorname);
-        // return "Kunde:" + "\nVorname=" + vorname + ", nachname=" + nachname + ", strasseNumber=" + strasseNumber + ", plzOrt=" + plzOrt + '}';
+//        String out = String.format("Kunde: Vorname=%s%nName: ", vorname);
+        String out = "Kunde:" + "\nVorname=" + vorname + ", nachname=" + nachname + ", strasse=" + strasse + ", hausNr" + hausnr + ", plz=" + plz + ", Ort: " + ort;
         return out;
     }
-
 
 }
