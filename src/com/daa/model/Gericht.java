@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -23,6 +25,9 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "gericht", catalog = "dbpizza", schema = "")
+@NamedQueries({
+    @NamedQuery(name = "Gericht.findAll", query = "SELECT g FROM Gericht g")
+})
 public class Gericht implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,11 +43,15 @@ public class Gericht implements Serializable {
     private Double preis;
     
     @Transient
-    private Integer amount;
+    private Integer amount = 0;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "keyGericht")
     private Collection<Orderposition> orderpositionCollection;
-    
+
+    @Override
+    public String toString() {
+        return "Gericht{" + "gerichtId=" + gerichtId + ", bezeichnung=" + bezeichnung + ", preis=" + preis + ", amount=" + amount + '}';
+    }
 
     public Gericht() {
     }
